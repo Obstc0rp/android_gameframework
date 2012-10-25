@@ -1,39 +1,45 @@
 package de.obstc0rp.android.schwarmanimation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.Log;
+import android.view.MotionEvent;
 import de.obstc0rp.android.gameFramework.AbstractGameComponent;
 import de.obstc0rp.android.gameFramework.Game;
 
 public class Schwarm extends AbstractGameComponent {
 
-	Boid[] boids;
+//	Boid[] boids;
+	List<Boid> boids;
 	int numberOfBoids = 30;
-	
+
 	public Schwarm(Game game) {
 		super(game);
-
+		boids = new ArrayList<Boid>();
 		Random r = new Random();
-
-        boids = new Boid[numberOfBoids];
+		Boid boid;
+//        boids = new Boid[numberOfBoids];
 
         for (int i = 0; i < numberOfBoids; i++) {
-            boids[i] = new Boid(game);
+        	boids.add(new Boid(game));
+        	
             //setting the x-coordinate
-            boids[i].positionX = SchwarmConstants.MAX_X/2 + ((r.nextDouble() - r.nextDouble()) * 100);
+            boids.get(i).positionX = SchwarmConstants.MAX_X/2 + ((r.nextDouble() - r.nextDouble()) * 100);
             //setting the y-coordinate
-            boids[i].positionY = SchwarmConstants.MAX_Y/2 + ((r.nextDouble() - r.nextDouble()) * 100);
+            boids.get(i).positionY = SchwarmConstants.MAX_Y/2 + ((r.nextDouble() - r.nextDouble()) * 100);
             //setting x-velocity
-            boids[i].velocityX = (r.nextDouble() - r.nextDouble())*5;
+            boids.get(i).velocityX = (r.nextDouble() - r.nextDouble())*5;
             //setting y-velocity
-            boids[i].velocityY = (r.nextDouble() - r.nextDouble())*5;
+            boids.get(i).velocityY = (r.nextDouble() - r.nextDouble())*5;
         }
-        for (Boid boid : boids) {
-            boid.setBoids(boids);
+        for (Boid b : boids) {
+            b.setBoids(boids);
             
-            this.addDrawableGameComponent(boid);
+            this.addDrawableGameComponent(b);
         }
 	}
 
@@ -59,5 +65,19 @@ public class Schwarm extends AbstractGameComponent {
 	public void draw(Canvas canvas) {
 		canvas.drawColor(Color.BLACK);
 		super.draw(canvas);
+	}
+
+	@Override
+	public void onTouchEvent(MotionEvent event) {
+		float mouseX = event.getX();
+		float mouseY = event.getY();
+
+		for(Boid b : boids){
+			if(b.isCollision(mouseX, mouseY)){
+				boids.remove(b);
+	            this.deleteDrawableGameComponent(b);
+				break;
+			}
+		}
 	}
 }

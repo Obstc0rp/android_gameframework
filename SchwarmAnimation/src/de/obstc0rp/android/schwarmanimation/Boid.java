@@ -1,5 +1,7 @@
 package de.obstc0rp.android.schwarmanimation;
 
+import java.util.List;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,7 +10,7 @@ import de.obstc0rp.android.gameFramework.Game;
 
 public class Boid extends AbstractDrawableGameComponent{
 
-	private Boid[] boids;
+	private List<Boid> boids;
 	public Bitmap bmp;
 	
 	public double positionX;
@@ -31,7 +33,7 @@ public class Boid extends AbstractDrawableGameComponent{
 	 * Sets the Boid-Array
 	 * @param boids
 	 */
-	public void setBoids(Boid[] boids){
+	public void setBoids(List<Boid> boids){
 		this.boids = boids;
 	}
 
@@ -158,5 +160,21 @@ public class Boid extends AbstractDrawableGameComponent{
 	@Override
 	public void unloadContent() {
 		this.bmp = null;
+	}
+
+	/**
+	 * detects if the given parameters collidate with the boid
+	 * @param mouseX
+	 * @param mouseY
+	 * @return
+	 */
+	public boolean isCollision(float mouseX, float mouseY) {
+
+		if(mouseX < positionX + bmp.getWidth()/2 &&  mouseX > positionX - bmp.getWidth()/2 &&
+				mouseY < positionY + bmp.getHeight()/2 &&  mouseY > positionY - bmp.getHeight()/2){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

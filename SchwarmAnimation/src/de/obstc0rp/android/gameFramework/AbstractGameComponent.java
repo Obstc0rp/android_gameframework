@@ -48,7 +48,7 @@ public abstract class AbstractGameComponent implements GameComponent{
 	 * Deletes the GameComponent which should expire.
 	 * @param gameComponent
 	 */
-	public void deleteDrawableGameComponent(GameComponent gameComponent){
+	public void deleteDrawableGameComponent(DrawableGameComponent gameComponent){
 		gameComponent.unloadContent();
 		this.drawableGameComponents.remove(gameComponent);
 	}

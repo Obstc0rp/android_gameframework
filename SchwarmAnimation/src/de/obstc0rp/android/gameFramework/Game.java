@@ -3,11 +3,16 @@ package de.obstc0rp.android.gameFramework;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class Game extends SurfaceView{
 
@@ -15,13 +20,13 @@ public class Game extends SurfaceView{
 	private GameLoop gameLoop;
 	//TODO: only ONE GameComponent please....
 	List<GameComponent> gameComponents;
-	//TODO: fullScreen
 	//TODO: dimensions (800x480 etc)
-	//TODO: orientation
-	
+	Activity activity;
 	public Game(Context context) {
 		super(context);
-
+		activity = (Activity)context;
+		((Activity)context).requestWindowFeature(Window.FEATURE_NO_TITLE);
+        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		gameComponents = new ArrayList<GameComponent>();
 		gameLoop = new GameLoop(this);
 		
@@ -46,6 +51,14 @@ public class Game extends SurfaceView{
 			}
 		});
 	}
+    
+	/**
+	 * Sets the orientation of the game via ActivityInfo.
+	 * @param activityInfo is an attribute of ActivityInfo.
+	 */
+    public void setOrientation(int activityInfo){
+    	activity.setRequestedOrientation(activityInfo);
+    }
 
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -95,5 +108,19 @@ public class Game extends SurfaceView{
 			gc.unloadContent();
 			gc = null;
 		}
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+
+		//TODO: maybe a delay... maybe in ConcreteGameComponent
+		synchronized (getHolder()) {
+			for(GameComponent gc : gameComponents){
+
+				gc.onTouchEvent(event);	
+			}
+		}
+		
+		return true;
 	}
 }
