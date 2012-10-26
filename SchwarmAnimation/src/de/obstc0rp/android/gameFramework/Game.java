@@ -94,6 +94,8 @@ public class Game extends SurfaceView{
 	
 	public void pauseGame(){
 		gameLoop.setRunning(false);
+//		gameLoop.interrupt();
+//		gameLoop.destroy();
 	}
 	
 	public void resumeGame(){
