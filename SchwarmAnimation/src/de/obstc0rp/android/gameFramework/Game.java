@@ -6,10 +6,9 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
-import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -75,18 +74,22 @@ public class Game extends SurfaceView{
 	 * Adds a GameComponent which you want to be drawn.
 	 * @param gameComponent
 	 */
-	public void addGameComponent(GameComponent gameComponent){
-		gameComponent.loadContent();
-		this.gameComponents.add(gameComponent);
+	public void addGameComponent(GameComponent gameComponent) {
+		synchronized (getHolder()) {
+			gameComponent.loadContent();
+			this.gameComponents.add(gameComponent);
+		}
 	}
 	
 	/**
 	 * Deletes the GameComponent which should expire.
 	 * @param gameComponent
 	 */
-	public void deleteGameComponent(GameComponent gameComponent){
-		gameComponent.unloadContent();
-		this.gameComponents.remove(gameComponent);
+	public void deleteGameComponent(GameComponent gameComponent) {
+		synchronized (getHolder()) {
+			gameComponent.unloadContent();
+			this.gameComponents.remove(gameComponent);
+		}
 	}
 	
 	public void pauseGame(){
@@ -99,7 +102,7 @@ public class Game extends SurfaceView{
 	}
 	
 	public void stopGame(){
-		//TODO: aufr‰umen
+		//TODO: aufr√§umen
 		gameLoop.setRunning(false);
 		gameLoop = null;
 		holder = null;

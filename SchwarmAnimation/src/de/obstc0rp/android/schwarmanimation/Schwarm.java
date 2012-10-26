@@ -6,14 +6,12 @@ import java.util.Random;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.MotionEvent;
 import de.obstc0rp.android.gameFramework.AbstractGameComponent;
 import de.obstc0rp.android.gameFramework.Game;
 
 public class Schwarm extends AbstractGameComponent {
 
-//	Boid[] boids;
 	List<Boid> boids;
 	int numberOfBoids = 30;
 
@@ -21,9 +19,8 @@ public class Schwarm extends AbstractGameComponent {
 		super(game);
 		boids = new ArrayList<Boid>();
 		Random r = new Random();
-		Boid boid;
-//        boids = new Boid[numberOfBoids];
-
+		
+		
         for (int i = 0; i < numberOfBoids; i++) {
         	boids.add(new Boid(game));
         	

@@ -39,17 +39,21 @@ public abstract class AbstractGameComponent implements GameComponent{
 	 * Adds a DrawableGameComponent
 	 * @param gameComponent
 	 */
-	public void addDrawableGameComponent(DrawableGameComponent gameComponent){
-		gameComponent.loadContent();
-		this.drawableGameComponents.add(gameComponent);
+	public void addDrawableGameComponent(DrawableGameComponent gameComponent) {
+		synchronized (game.getHolder()) {
+			gameComponent.loadContent();
+			this.drawableGameComponents.add(gameComponent);
+		}
 	}
 	
 	/**
 	 * Deletes the GameComponent which should expire.
 	 * @param gameComponent
 	 */
-	public void deleteDrawableGameComponent(DrawableGameComponent gameComponent){
-		gameComponent.unloadContent();
-		this.drawableGameComponents.remove(gameComponent);
+	public void deleteDrawableGameComponent(DrawableGameComponent gameComponent) {
+		synchronized (game.getHolder()) {
+			gameComponent.unloadContent();
+			this.drawableGameComponents.remove(gameComponent);
+		}
 	}
 }
