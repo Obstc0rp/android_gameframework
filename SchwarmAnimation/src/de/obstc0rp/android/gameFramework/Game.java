@@ -13,7 +13,7 @@ import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class Game extends SurfaceView{
+public class Game extends SurfaceView implements Callback{
 
 	private SurfaceHolder holder;
 	private GameLoop gameLoop;
@@ -21,34 +21,20 @@ public class Game extends SurfaceView{
 	List<GameComponent> gameComponents;
 	//TODO: dimensions (800x480 etc)
 	Activity activity;
+	
 	public Game(Context context) {
 		super(context);
+		
 		activity = (Activity)context;
-		((Activity)context).requestWindowFeature(Window.FEATURE_NO_TITLE);
-        ((Activity)context).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		gameComponents = new ArrayList<GameComponent>();
+		
 		gameLoop = new GameLoop(this);
 		
 		holder = getHolder();
-		holder.addCallback(new Callback() {
-			
-			@Override
-			public void surfaceDestroyed(SurfaceHolder holder) {
-				
-			}
-			
-			@Override
-			public void surfaceCreated(SurfaceHolder holder) {
-				gameLoop.setRunning(true);
-				gameLoop.start();
-			}
-			
-			@Override
-			public void surfaceChanged(SurfaceHolder holder, int format, int width,
-					int height) {
-				
-			}
-		});
+		holder.addCallback(this);
+		setFocusable(true);
 	}
     
 	/**
@@ -93,19 +79,19 @@ public class Game extends SurfaceView{
 	}
 	
 	public void pauseGame(){
-		gameLoop.setRunning(false);
+		synchronized (holder) {
+			gameLoop.setRunning(false);
+			gameLoop = null;
+		}
+
+//		gameLoop.setRunning(false);
 //		gameLoop.interrupt();
-//		gameLoop.destroy();
-	}
-	
-	public void resumeGame(){
-		gameLoop.setRunning(true);
-		gameLoop.run();
 	}
 	
 	public void stopGame(){
-		//TODO: aufr√§umen
+		//TODO: aufr‰umen
 		gameLoop.setRunning(false);
+//		gameLoop.interrupt();
 		gameLoop = null;
 		holder = null;
 		
@@ -127,5 +113,32 @@ public class Game extends SurfaceView{
 		}
 		
 		return true;
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+
+		gameLoop.setRunning(true);
+		gameLoop.start();
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		boolean retry = true;
+		while (retry) {
+			try {
+				gameLoop.join();
+				retry = false;
+			} catch (InterruptedException e) {
+				// try again shutting down the thread
+			}
+		}
 	}
 }
