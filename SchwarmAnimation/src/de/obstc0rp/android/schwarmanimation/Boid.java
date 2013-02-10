@@ -20,6 +20,11 @@ public class Boid extends AbstractDrawableGameComponent{
 	public double velocityY = 0;
 	public double nextVelocityX = 0;
 	public double nextVelocityY = 0;
+
+	public static double MAX_X;	//screen-width
+	public static double MIN_X = 0;
+	public static double MAX_Y;	//screen-height
+	public static double MIN_Y = 0;
 	
 	/**
 	 * Intatiates a Boid
@@ -27,6 +32,9 @@ public class Boid extends AbstractDrawableGameComponent{
 	 */
 	public Boid(Game game) {
 		super(game);
+
+		MAX_X = game.getDisplayWidth();
+		MAX_Y = game.getDisplayWidth();
 	}
 	
 	/**
@@ -123,25 +131,25 @@ public class Boid extends AbstractDrawableGameComponent{
         this.positionX += this.velocityX;
         this.positionY += this.velocityY;
 
-        //Im "Gehäuse" halten
-        if (positionX + (bmp.getWidth()/2) >= SchwarmConstants.MAX_X) {
+        //Im "Gehï¿½use" halten
+        if (positionX + (bmp.getWidth()/2) >= MAX_X) {
             velocityX *= -1.0f;
-            positionX = SchwarmConstants.MAX_X - (bmp.getWidth()/2) - 0.01f;
+            positionX = MAX_X - (bmp.getWidth()/2) - 0.01f;
         }
         
-        if (positionX - (bmp.getWidth()/2) <= SchwarmConstants.MIN_X) {
+        if (positionX - (bmp.getWidth()/2) <= MIN_X) {
             velocityX *= -1.0f;
-            positionX = SchwarmConstants.MIN_X + (bmp.getWidth()/2) + 0.01f;
+            positionX = MIN_X + (bmp.getWidth()/2) + 0.01f;
         }
         
-        if (positionY + (bmp.getHeight()/2) >= SchwarmConstants.MAX_Y) {
+        if (positionY + (bmp.getHeight()/2) >= MAX_Y) {
             velocityY *= -1.0f;
-            positionY = SchwarmConstants.MAX_Y - (bmp.getHeight()/2) - 0.01f;
+            positionY = MAX_Y - (bmp.getHeight()/2) - 0.01f;
         }
         
-        if (positionY - (bmp.getHeight()/2) <= SchwarmConstants.MIN_Y) {
+        if (positionY - (bmp.getHeight()/2) <= MIN_Y) {
         	velocityY *= -1.0f;
-            positionY = SchwarmConstants.MIN_Y + (bmp.getHeight()/2) + 0.1f;
+            positionY = MIN_Y + (bmp.getHeight()/2) + 0.1f;
         }
 	}
 

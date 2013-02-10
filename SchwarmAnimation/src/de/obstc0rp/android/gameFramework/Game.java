@@ -3,9 +3,13 @@ package de.obstc0rp.android.gameFramework;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.obstc0rp.android.schwarmanimation.SchwarmAnimation;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
@@ -19,7 +23,9 @@ public class Game extends SurfaceView implements Callback{
 	private GameLoop gameLoop;
 	//TODO: only ONE GameComponent please....
 	List<GameComponent> gameComponents;
-	//TODO: dimensions (800x480 etc)
+
+	private int displayHeight;
+	private int displayWidth;
 	Activity activity;
 	
 	public Game(Context context) {
@@ -28,7 +34,18 @@ public class Game extends SurfaceView implements Callback{
 		activity = (Activity)context;
 		activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		gameComponents = new ArrayList<GameComponent>();
+		
+        //TODO: check dis shit
+        //gets the actual screen resolution
+        DisplayMetrics display = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(display);
+        this.displayHeight = display.heightPixels;
+        this.displayWidth = display.widthPixels;
+
+    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayHeight is: " + displayHeight);
+    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayWidth is: " + displayWidth);
+    	
+        gameComponents = new ArrayList<GameComponent>();
 		
 		gameLoop = new GameLoop(this);
 		
@@ -43,6 +60,14 @@ public class Game extends SurfaceView implements Callback{
 	 */
     public void setOrientation(int activityInfo){
     	activity.setRequestedOrientation(activityInfo);
+    	
+    	//TODO: maybe case, activityInfo == ActivityInfo.SCREEN_ORIENTATION_ANDSCAPE
+//    	int buffer = displayHeight;
+//    	displayHeight = displayWidth;
+//    	displayWidth = buffer;
+    	
+    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayHeight is: " + displayHeight);
+    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayWidth is: " + displayWidth);
     }
 
 	@Override
@@ -89,7 +114,7 @@ public class Game extends SurfaceView implements Callback{
 	}
 	
 	public void stopGame(){
-		//TODO: aufräumen
+		//TODO: aufrï¿½umen
 		gameLoop.setRunning(false);
 //		gameLoop.interrupt();
 		gameLoop = null;
@@ -140,5 +165,12 @@ public class Game extends SurfaceView implements Callback{
 				// try again shutting down the thread
 			}
 		}
+	}
+	
+	public int getDisplayHeight(){
+		return displayHeight;
+	}
+	public int getDisplayWidth(){
+		return displayWidth;
 	}
 }

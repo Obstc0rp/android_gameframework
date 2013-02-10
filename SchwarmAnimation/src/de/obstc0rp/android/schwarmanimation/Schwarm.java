@@ -15,8 +15,17 @@ public class Schwarm extends AbstractGameComponent {
 	List<Boid> boids;
 	int numberOfBoids = 30;
 
+	public static double MAX_X;	//screen-width
+	public static double MIN_X = 0;
+	public static double MAX_Y;	//screen-height
+	public static double MIN_Y = 0;
+
 	public Schwarm(Game game) {
 		super(game);
+		
+		MAX_X = game.getDisplayWidth();
+		MAX_Y = game.getDisplayWidth();
+		
 		boids = new ArrayList<Boid>();
 		Random r = new Random();
 		
@@ -25,9 +34,9 @@ public class Schwarm extends AbstractGameComponent {
         	boids.add(new Boid(game));
         	
             //setting the x-coordinate
-            boids.get(i).positionX = SchwarmConstants.MAX_X/2 + ((r.nextDouble() - r.nextDouble()) * 100);
+            boids.get(i).positionX = MAX_X/2 + ((r.nextDouble() - r.nextDouble()) * 100);
             //setting the y-coordinate
-            boids.get(i).positionY = SchwarmConstants.MAX_Y/2 + ((r.nextDouble() - r.nextDouble()) * 100);
+            boids.get(i).positionY = MAX_Y/2 + ((r.nextDouble() - r.nextDouble()) * 10);
             //setting x-velocity
             boids.get(i).velocityX = (r.nextDouble() - r.nextDouble())*5;
             //setting y-velocity
