@@ -24,7 +24,7 @@ public class Schwarm extends AbstractGameComponent {
 		super(game);
 		
 		MAX_X = game.getDisplayWidth();
-		MAX_Y = game.getDisplayWidth();
+		MAX_Y = game.getDisplayHeight();
 		
 		boids = new ArrayList<Boid>();
 		Random r = new Random();

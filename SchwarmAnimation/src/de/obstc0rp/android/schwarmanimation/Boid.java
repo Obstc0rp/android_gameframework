@@ -34,7 +34,7 @@ public class Boid extends AbstractDrawableGameComponent{
 		super(game);
 
 		MAX_X = game.getDisplayWidth();
-		MAX_Y = game.getDisplayWidth();
+		MAX_Y = game.getDisplayHeight();
 	}
 	
 	/**
@@ -163,6 +163,7 @@ public class Boid extends AbstractDrawableGameComponent{
 	public void loadContent() {
 
 		bmp = BitmapFactory.decodeResource(game.getResources(), R.drawable.ic_launcher);
+		bmp = Bitmap.createScaledBitmap(bmp, (int)(MAX_X * 0.1), (int)(MAX_X * 0.1), false);
 	}
 
 	@Override
