@@ -3,7 +3,7 @@ package de.obstc0rp.android.gameFramework;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.obstc0rp.android.schwarmanimation.SchwarmAnimation;
+import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -42,8 +42,8 @@ public class Game extends SurfaceView implements Callback{
         this.displayHeight = display.heightPixels;
         this.displayWidth = display.widthPixels;
 
-    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayHeight is: " + displayHeight);
-    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayWidth is: " + displayWidth);
+    	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayHeight is: " + displayHeight);
+    	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayWidth is: " + displayWidth);
     	
         gameComponents = new ArrayList<GameComponent>();
 		
@@ -66,8 +66,8 @@ public class Game extends SurfaceView implements Callback{
 //    	displayHeight = displayWidth;
 //    	displayWidth = buffer;
     	
-    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayHeight is: " + displayHeight);
-    	Log.v(SchwarmAnimation.class.getSimpleName(), "displayWidth is: " + displayWidth);
+    	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayHeight is: " + displayHeight);
+    	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayWidth is: " + displayWidth);
     }
 
 	@Override
