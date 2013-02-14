@@ -21,8 +21,8 @@ public class Game extends SurfaceView implements Callback{
 
 	private SurfaceHolder holder;
 	private GameLoop gameLoop;
-	//TODO: only ONE GameComponent please....
-	List<GameComponent> gameComponents;
+
+	GameComponent gameComponent;
 
 	private int displayHeight;
 	private int displayWidth;
@@ -44,8 +44,6 @@ public class Game extends SurfaceView implements Callback{
 
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayHeight is: " + displayHeight);
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayWidth is: " + displayWidth);
-    	
-        gameComponents = new ArrayList<GameComponent>();
 		
 		gameLoop = new GameLoop(this);
 		
@@ -61,7 +59,7 @@ public class Game extends SurfaceView implements Callback{
     public void setOrientation(int activityInfo){
     	activity.setRequestedOrientation(activityInfo);
     	
-    	//TODO: maybe case, activityInfo == ActivityInfo.SCREEN_ORIENTATION_ANDSCAPE
+    	//TODO: maybe case, activityInfo == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 //    	int buffer = displayHeight;
 //    	displayHeight = displayWidth;
 //    	displayWidth = buffer;
@@ -73,11 +71,9 @@ public class Game extends SurfaceView implements Callback{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		
-		for(GameComponent gc: gameComponents) {
-			gc.update();
-		}
-		for(GameComponent gc: gameComponents) {
-			gc.draw(canvas);
+		if(gameComponent != null){
+			gameComponent.update();
+			gameComponent.draw(canvas);
 		}
 	}
 	
@@ -85,10 +81,16 @@ public class Game extends SurfaceView implements Callback{
 	 * Adds a GameComponent which you want to be drawn.
 	 * @param gameComponent
 	 */
-	public void addGameComponent(GameComponent gameComponent) {
-		synchronized (getHolder()) {
-			gameComponent.loadContent();
-			this.gameComponents.add(gameComponent);
+	public void setGameComponent(GameComponent gameComponent) {
+		
+		if(this.gameComponent != null){
+			this.gameComponent.unloadContent();
+			this.gameComponent = null;
+			this.gameComponent= gameComponent;
+			this.gameComponent.loadContent();
+		}else{
+			this.gameComponent= gameComponent;
+			this.gameComponent.loadContent();
 		}
 	}
 	
@@ -99,7 +101,7 @@ public class Game extends SurfaceView implements Callback{
 	public void deleteGameComponent(GameComponent gameComponent) {
 		synchronized (getHolder()) {
 			gameComponent.unloadContent();
-			this.gameComponents.remove(gameComponent);
+			this.gameComponent = null;
 		}
 	}
 	
@@ -120,10 +122,8 @@ public class Game extends SurfaceView implements Callback{
 		gameLoop = null;
 		holder = null;
 		
-		for(GameComponent gc : gameComponents){
-			gc.unloadContent();
-			gc = null;
-		}
+		gameComponent.unloadContent();
+		gameComponent = null;
 	}
 	
 	@Override
@@ -131,10 +131,8 @@ public class Game extends SurfaceView implements Callback{
 
 		//TODO: maybe a delay... maybe in ConcreteGameComponent
 		synchronized (getHolder()) {
-			for(GameComponent gc : gameComponents){
-
-				gc.onTouchEvent(event);	
-			}
+			
+			this.gameComponent.onTouchEvent(event);
 		}
 		
 		return true;
@@ -144,12 +142,12 @@ public class Game extends SurfaceView implements Callback{
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-
+		
 		gameLoop.setRunning(true);
 		gameLoop.start();
 	}

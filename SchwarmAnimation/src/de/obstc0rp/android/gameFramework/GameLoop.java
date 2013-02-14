@@ -58,4 +58,23 @@ public class GameLoop extends Thread{
 		}
 
 	}
+	
+	/**
+	 
+	 public void surfaceCreated(SurfaceHolder holder) {
+        Canvas canvas = null;
+        try {
+            canvas = holder.lockCanvas();
+            synchronized(holder) {
+                onDraw(canvas);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (canvas != null) {
+                holder.unlockCanvasAndPost(canvas);
+            }
+        }
+    } 
+	 */
 }

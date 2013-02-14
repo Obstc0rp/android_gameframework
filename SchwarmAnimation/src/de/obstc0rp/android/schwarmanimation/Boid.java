@@ -131,7 +131,7 @@ public class Boid extends AbstractDrawableGameComponent{
         this.positionX += this.velocityX;
         this.positionY += this.velocityY;
 
-        //Im "Geh�use" halten
+        //Im "Gehäuse" halten
         if (positionX + (bmp.getWidth()/2) >= MAX_X) {
             velocityX *= -1.0f;
             positionX = MAX_X - (bmp.getWidth()/2) - 0.01f;
@@ -149,7 +149,7 @@ public class Boid extends AbstractDrawableGameComponent{
         
         if (positionY - (bmp.getHeight()/2) <= MIN_Y) {
         	velocityY *= -1.0f;
-            positionY = MIN_Y + (bmp.getHeight()/2) + 0.1f;
+            positionY = MIN_Y + (bmp.getHeight()/2) + 0.01f;
         }
 	}
 

@@ -44,7 +44,6 @@ public class Schwarm extends AbstractGameComponent {
         }
         for (Boid b : boids) {
             b.setBoids(boids);
-            
             this.addDrawableGameComponent(b);
         }
 	}
