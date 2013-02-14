@@ -7,10 +7,10 @@ import java.util.Random;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
-import de.obstc0rp.android.gameFramework.AbstractGameComponent;
+import de.obstc0rp.android.gameFramework.AbstractLevel;
 import de.obstc0rp.android.gameFramework.Game;
 
-public class Schwarm extends AbstractGameComponent {
+public class Schwarm extends AbstractLevel {
 
 	List<Boid> boids;
 	int numberOfBoids = 30;

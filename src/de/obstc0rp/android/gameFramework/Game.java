@@ -22,7 +22,7 @@ public class Game extends SurfaceView implements Callback{
 	private SurfaceHolder holder;
 	private GameLoop gameLoop;
 
-	GameComponent gameComponent;
+	Level gameComponent;
 
 	private int displayHeight;
 	private int displayWidth;
@@ -81,7 +81,7 @@ public class Game extends SurfaceView implements Callback{
 	 * Adds a GameComponent which you want to be drawn.
 	 * @param gameComponent
 	 */
-	public void setGameComponent(GameComponent gameComponent) {
+	public void setGameComponent(Level gameComponent) {
 		
 		if(this.gameComponent != null){
 			this.gameComponent.unloadContent();
@@ -98,7 +98,7 @@ public class Game extends SurfaceView implements Callback{
 	 * Deletes the GameComponent which should expire.
 	 * @param gameComponent
 	 */
-	public void deleteGameComponent(GameComponent gameComponent) {
+	public void deleteGameComponent(Level gameComponent) {
 		synchronized (getHolder()) {
 			gameComponent.unloadContent();
 			this.gameComponent = null;
