@@ -1,13 +1,9 @@
 package de.obstc0rp.android.gameFramework;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -16,6 +12,7 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
 
 public class Game extends SurfaceView implements Callback{
 
@@ -28,8 +25,8 @@ public class Game extends SurfaceView implements Callback{
 	private int displayWidth;
 	Activity activity;
 	
-	public Game(Context context) {
-		super(context);
+	public Game(Context context, AttributeSet attrs) {
+		super(context, attrs);
 		
 		activity = (Activity)context;
 		activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -105,14 +102,22 @@ public class Game extends SurfaceView implements Callback{
 		}
 	}
 	
-	public void pauseGame(){
+	public void onPause(){
+		
 		synchronized (holder) {
 			gameLoop.setRunning(false);
-			gameLoop = null;
+//			gameLoop = null;
 		}
-
 //		gameLoop.setRunning(false);
 //		gameLoop.interrupt();
+	}
+	
+	public void onResume(){
+		//TODO
+		if(!gameLoop.isAlive()){
+			gameLoop.setRunning(true);
+			gameLoop.start();
+		}
 	}
 	
 	public void stopGame(){
@@ -148,13 +153,14 @@ public class Game extends SurfaceView implements Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		
-		gameLoop.setRunning(true);
-		gameLoop.start();
+//		gameLoop.setRunning(true);
+//		gameLoop.start();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
+		gameLoop.setRunning(false);
 		while (retry) {
 			try {
 				gameLoop.join();

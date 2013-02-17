@@ -1,8 +1,11 @@
 package de.obstc0rp.android.gameFramework;
 
+import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class GameLoop extends Thread{
+	private static final String TAG = SchwarmAnimationActivity.class.getSimpleName();
 	
 	private long FPS = 30;
 	private Game game;
@@ -39,7 +42,9 @@ public class GameLoop extends Thread{
 			startTime = System.currentTimeMillis();
 			try{
 				c = game.getHolder().lockCanvas();
+
 				synchronized (game.getHolder()) {
+					
 					game.onDraw(c);
 				}
 			}finally {
@@ -52,7 +57,7 @@ public class GameLoop extends Thread{
 				if(sleepTime > 0){
 					sleep(sleepTime);
 				}else{
-//					sleep(10);	//i think it's useless...
+					sleep(10);	//i think it's useless...
 				}
 			}catch(Exception e){}
 		}
