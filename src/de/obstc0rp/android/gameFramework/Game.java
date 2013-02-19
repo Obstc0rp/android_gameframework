@@ -19,7 +19,7 @@ public class Game extends SurfaceView implements Callback{
 	private SurfaceHolder holder;
 	private GameLoop gameLoop;
 
-	Level gameComponent;
+	Level level;
 
 	private int displayHeight;
 	private int displayWidth;
@@ -65,71 +65,82 @@ public class Game extends SurfaceView implements Callback{
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayWidth is: " + displayWidth);
     }
 
+//    @Override
+//	protected void onDraw(Canvas canvas) {
+//		
+//		if(gameComponent != null){
+//			gameComponent.update();
+//			gameComponent.draw(canvas);
+//		}
+//	}
+	
 	@Override
-	protected void onDraw(Canvas canvas) {
+	public void draw(Canvas canvas) {
 		
-		if(gameComponent != null){
-			gameComponent.update();
-			gameComponent.draw(canvas);
+//		super.draw(canvas);
+		if(level != null){
+			level.update();
+			level.draw(canvas);
 		}
 	}
 	
 	/**
 	 * Adds a GameComponent which you want to be drawn.
-	 * @param gameComponent
+	 * @param level
 	 */
-	public void setGameComponent(Level gameComponent) {
+	public void setLevel(Level level) {
 		
-		if(this.gameComponent != null){
-			this.gameComponent.unloadContent();
-			this.gameComponent = null;
-			this.gameComponent= gameComponent;
-			this.gameComponent.loadContent();
+		if(this.level != null){
+			this.level.unloadContent();
+			this.level = null;
+			this.level= level;
+			this.level.loadContent();
 		}else{
-			this.gameComponent= gameComponent;
-			this.gameComponent.loadContent();
+			this.level= level;
+			this.level.loadContent();
 		}
 	}
 	
 	/**
 	 * Deletes the GameComponent which should expire.
-	 * @param gameComponent
+	 * @param level
 	 */
-	public void deleteGameComponent(Level gameComponent) {
+	@Deprecated
+	public void deleteLevel(Level level) {
 		synchronized (getHolder()) {
-			gameComponent.unloadContent();
-			this.gameComponent = null;
+			level.unloadContent();
+			this.level = null;
 		}
 	}
 	
-	public void onPause(){
-		
-		synchronized (holder) {
-			gameLoop.setRunning(false);
-//			gameLoop = null;
-		}
+//	public void onPause(){
+//		
+//		synchronized (holder) {
+//			gameLoop.setRunning(false);
+////			gameLoop = null;
+//		}
+////		gameLoop.setRunning(false);
+////		gameLoop.interrupt();
+//	}
+//	
+//	public void onResume(){
+//		//TODO
+//		if(!gameLoop.isAlive()){
+//			gameLoop.setRunning(true);
+//			gameLoop.start();
+//		}
+//	}
+//	
+//	public void stopGame(){
+//		//TODO: aufr�umen
 //		gameLoop.setRunning(false);
-//		gameLoop.interrupt();
-	}
-	
-	public void onResume(){
-		//TODO
-		if(!gameLoop.isAlive()){
-			gameLoop.setRunning(true);
-			gameLoop.start();
-		}
-	}
-	
-	public void stopGame(){
-		//TODO: aufr�umen
-		gameLoop.setRunning(false);
-//		gameLoop.interrupt();
-		gameLoop = null;
-		holder = null;
-		
-		gameComponent.unloadContent();
-		gameComponent = null;
-	}
+////		gameLoop.interrupt();
+//		gameLoop = null;
+//		holder = null;
+//		
+//		gameComponent.unloadContent();
+//		gameComponent = null;
+//	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -137,7 +148,7 @@ public class Game extends SurfaceView implements Callback{
 		//TODO: maybe a delay... maybe in ConcreteGameComponent
 		synchronized (getHolder()) {
 			
-			this.gameComponent.onTouchEvent(event);
+			this.level.onTouchEvent(event);
 		}
 		
 		return true;
@@ -153,8 +164,8 @@ public class Game extends SurfaceView implements Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		
-//		gameLoop.setRunning(true);
-//		gameLoop.start();
+		gameLoop.setRunning(true);
+		gameLoop.start();
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package de.obstc0rp.android.schwarmanimation;
 
-import android.util.DisplayMetrics;
-
 public class SchwarmConstants {
 	
 	//factors for vectors

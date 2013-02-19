@@ -1,11 +1,8 @@
 package de.obstc0rp.android.gameFramework;
 
-import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
 import android.graphics.Canvas;
-import android.util.Log;
 
 public class GameLoop extends Thread{
-	private static final String TAG = SchwarmAnimationActivity.class.getSimpleName();
 	
 	private long FPS = 30;
 	private Game game;
@@ -37,15 +34,17 @@ public class GameLoop extends Thread{
 		long startTime;
 		long sleepTime;
 		
+		Canvas c = null;
+		
 		while(running){
-			Canvas c = null;
+			c = null;
 			startTime = System.currentTimeMillis();
 			try{
-				c = game.getHolder().lockCanvas();
+				c = game.getHolder().lockCanvas(null);
 
 				synchronized (game.getHolder()) {
-					
-					game.onDraw(c);
+				
+					game.draw(c);
 				}
 			}finally {
 				if(c != null) {
@@ -63,23 +62,4 @@ public class GameLoop extends Thread{
 		}
 
 	}
-	
-	/**
-	 
-	 public void surfaceCreated(SurfaceHolder holder) {
-        Canvas canvas = null;
-        try {
-            canvas = holder.lockCanvas();
-            synchronized(holder) {
-                onDraw(canvas);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (canvas != null) {
-                holder.unlockCanvasAndPost(canvas);
-            }
-        }
-    } 
-	 */
 }
