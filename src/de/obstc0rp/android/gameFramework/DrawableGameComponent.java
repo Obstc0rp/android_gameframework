@@ -23,5 +23,5 @@ public interface DrawableGameComponent {
 	 * Draws the GameComponent.
 	 * @param canvas
 	 */
-	public void draw(Canvas canvas);
+	public void draw(Canvas c);
 }
