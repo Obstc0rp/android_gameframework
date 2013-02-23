@@ -79,7 +79,7 @@ public class Game extends GLSurfaceView implements Renderer {
 			if(sleepTime > 0){
 				Thread.sleep(sleepTime);
 			}else{
-				Thread.sleep(10);	//i think it's useless...
+//				Thread.sleep(10);	//i think it's useless...
 			}
 		}catch(Exception e){}
 	}
@@ -90,7 +90,6 @@ public class Game extends GLSurfaceView implements Renderer {
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "Renderer: Surface changed");
     	
     	//TODO: update screen size... not necessary for this i think...
-    	level.onSurfaceCreated(gl);
 	}
 
 	@Override
@@ -99,6 +98,8 @@ public class Game extends GLSurfaceView implements Renderer {
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "Renderer: Surface createt to perspective");
 		
     	//TODO
+    	//TODO: resources laden. bitmaps, etc
+    	level.onSurfaceCreated(gl);
 	}
 	
 	public void onPause(){
