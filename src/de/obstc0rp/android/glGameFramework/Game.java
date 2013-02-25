@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Window;
 import android.view.WindowManager;
-import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
+import de.obstc0rp.android.activity.SchwarmAnimationActivity;
 
 public class Game extends GLSurfaceView implements Renderer {
 

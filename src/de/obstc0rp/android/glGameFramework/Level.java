@@ -49,10 +49,8 @@ public abstract class Level {
 	public abstract void onSurfaceCreated(GL10 gl);
 //	{
 //		for(DrawableGameComponent dgc: drawableGameComponents){
-//			dgc.onSurfaceCreated(gl);
-//		}
-		
-		
+//			dgc.(gl);
+//		}	
 //	}
 
 	/**

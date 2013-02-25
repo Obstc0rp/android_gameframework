@@ -1,8 +1,12 @@
 package de.obstc0rp.android.gameFramework;
 
 import android.graphics.Canvas;
+import android.util.Log;
+import de.obstc0rp.android.activity.SchwarmAnimationActivity;
 
 public class GameLoop extends Thread{
+	
+	private static final String TAG = SchwarmAnimationActivity.class.getSimpleName();
 	
 	private long FPS = 30;
 	private Game game;
@@ -61,5 +65,6 @@ public class GameLoop extends Thread{
 			}catch(Exception e){}
 		}
 
+		Log.v(TAG, "GameLoop: Thread stopped.");
 	}
 }

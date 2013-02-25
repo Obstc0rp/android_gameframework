@@ -1,16 +1,17 @@
-package de.obstc0rp.android.schwarmanimation;
+package de.obstc0rp.android.glSchwarmanimation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.view.MotionEvent;
-import de.obstc0rp.android.gameFramework.AbstractLevel;
-import de.obstc0rp.android.gameFramework.Game;
+import javax.microedition.khronos.opengles.GL10;
 
-public class Schwarm extends AbstractLevel {
+import android.opengl.GLU;
+import android.view.MotionEvent;
+import de.obstc0rp.android.glGameFramework.Game;
+import de.obstc0rp.android.glGameFramework.Level;
+
+public class Schwarm extends Level {
 
 	List<Boid> boids;
 	int numberOfBoids = 30;
@@ -66,10 +67,35 @@ public class Schwarm extends AbstractLevel {
 		super.update();
 	}
 	
+//	@Override
+//	public void draw(Canvas canvas) {
+//		canvas.drawColor(Color.BLACK);
+//		super.draw(canvas);
+//	}
+	
 	@Override
-	public void draw(Canvas canvas) {
-		canvas.drawColor(Color.BLACK);
-		super.draw(canvas);
+	public void draw(GL10 gl) {
+		//TODO
+		//s.o.
+		gl.glClearColor(0, 0, 0, 0.5f);
+		super.draw(gl);
+	}
+	
+	@Override
+	public void onSurfaceCreated(GL10 gl) {
+
+		gl.glEnable(GL10.GL_TEXTURE_2D);            //Enable Texture Mapping ( NEW )
+		
+		gl.glShadeModel(GL10.GL_SMOOTH);            //Enable Smooth Shading
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);    //Black Background
+		gl.glClearDepthf(1.0f);                     //Depth Buffer Setup
+		gl.glEnable(GL10.GL_DEPTH_TEST);            //Enables Depth Testing
+		gl.glDepthFunc(GL10.GL_LEQUAL);             //The Type Of Depth Testing To Do
+		
+		//Really Nice Perspective Calculations
+		gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
+		
+		GLU.gluOrtho2D(gl, (float)0, (float)MAX_X, (float)0, (float)MAX_Y);
 	}
 
 	@Override

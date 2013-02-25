@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity"
+            android:name="de.obstc0rp.android.activity.SchwarmAnimationActivity"
             android:label="@string/title_activity_schwarm_animation" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

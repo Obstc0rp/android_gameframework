@@ -1,10 +1,11 @@
-package de.obstc0rp.android.schwarmanimation;
+package de.obstc0rp.android.activity;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import de.obstc0rp.android.glGameFramework.Game;
+import de.obstc0rp.android.glSchwarmanimation.Schwarm;
 
 public class SchwarmAnimationActivity extends Activity {
 
@@ -22,12 +23,8 @@ public class SchwarmAnimationActivity extends Activity {
 
         schwarmGame = new Game(this);
         schwarmGame.setOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//        Schwarm schwarm = new Schwarm(schwarmGame);
-//        schwarmGame.setLevel(schwarm);
-//        setContentView(schwarmGame);
-        
-        TestTexture testex = new TestTexture(schwarmGame);
-        schwarmGame.setLevel(testex);
+        Schwarm schwarm = new Schwarm(schwarmGame);
+        schwarmGame.setLevel(schwarm);
         setContentView(schwarmGame);
         
         Log.v(TAG, "view added");

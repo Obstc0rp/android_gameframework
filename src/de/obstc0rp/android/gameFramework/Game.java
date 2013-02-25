@@ -3,7 +3,6 @@ package de.obstc0rp.android.gameFramework;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -12,10 +11,12 @@ import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
-import de.obstc0rp.android.schwarmanimation.SchwarmAnimationActivity;
+import de.obstc0rp.android.activity.SchwarmAnimationActivity;
 
 public class Game extends SurfaceView implements Callback{
 
+	private static final String TAG = SchwarmAnimationActivity.class.getSimpleName();
+	
 	private SurfaceHolder holder;
 	private GameLoop gameLoop;
 
@@ -25,8 +26,9 @@ public class Game extends SurfaceView implements Callback{
 	private int displayWidth;
 	Activity activity;
 	
-	public Game(Context context, AttributeSet attrs) {
-		super(context, attrs);
+	//TODO: remove attributeset
+	public Game(Context context) {
+		super(context);
 		
 		activity = (Activity)context;
 		activity.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -42,10 +44,11 @@ public class Game extends SurfaceView implements Callback{
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayHeight is: " + displayHeight);
     	Log.v(SchwarmAnimationActivity.class.getSimpleName(), "displayWidth is: " + displayWidth);
 		
-		gameLoop = new GameLoop(this);
 		
 		holder = getHolder();
 		holder.addCallback(this);
+
+		gameLoop = new GameLoop(this);
 		setFocusable(true);
 	}
     
@@ -161,6 +164,7 @@ public class Game extends SurfaceView implements Callback{
 
 	}
 
+	//TODO: nothing to do, just to know: need to start thread here
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		
@@ -168,16 +172,24 @@ public class Game extends SurfaceView implements Callback{
 		gameLoop.start();
 	}
 
+	//TODO: need to stop thread HERE
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
-		gameLoop.setRunning(false);
+//		gameLoop.setRunning(false);
+		Log.v(TAG, "Trying to stop thread.");
 		while (retry) {
 			try {
+			
 				gameLoop.join();
 				retry = false;
+			
+		        Log.v(TAG, "Game: Thread stopped.");
 			} catch (InterruptedException e) {
 				// try again shutting down the thread
+				
+				Log.v(TAG, "Game: Thread not stopped... Trying again");
+				Log.v(TAG, "Error message: "  + e.getMessage());
 			}
 		}
 	}
