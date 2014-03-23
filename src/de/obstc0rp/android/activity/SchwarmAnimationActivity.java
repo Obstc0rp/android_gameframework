@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
-import de.obstc0rp.android.glGameFramework.Game;
-import de.obstc0rp.android.glSchwarmanimation.Schwarm;
+import de.obstc0rp.android.gameFramework.Game;
+import de.obstc0rp.android.schwarmanimation.Schwarm;
 
 public class SchwarmAnimationActivity extends Activity {
 
@@ -23,8 +23,18 @@ public class SchwarmAnimationActivity extends Activity {
 
         schwarmGame = new Game(this);
         schwarmGame.setOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
+        //OpenGL Schwarm
         Schwarm schwarm = new Schwarm(schwarmGame);
         schwarmGame.setLevel(schwarm);
+
+        //NON-OpenGL Schwam
+        
+        //OpenGL Test
+//        TestTexture testex = new TestTexture(schwarmGame);
+//        schwarmGame.setLevel(testex);
+        
+        
         setContentView(schwarmGame);
         
         Log.v(TAG, "view added");
@@ -32,7 +42,7 @@ public class SchwarmAnimationActivity extends Activity {
     
     @Override
     protected void onPause() {
-    	schwarmGame.onPause();
+//    	schwarmGame.onPause();
     	super.onPause();
     }
     
@@ -40,7 +50,7 @@ public class SchwarmAnimationActivity extends Activity {
     protected void onResume() {
     	
     	if(!focusChangeFalseSeen){
-    		schwarmGame.onResume();
+//    		schwarmGame.onResume();
     	}
     	resume = true;
     	super.onResume();
@@ -53,7 +63,7 @@ public class SchwarmAnimationActivity extends Activity {
     	
     	if(hasFocus){
     		if(resume){
-    			schwarmGame.onResume();
+//    			schwarmGame.onResume();
     		}
     		
     		resume = false;

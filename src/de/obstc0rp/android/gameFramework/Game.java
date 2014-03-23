@@ -167,8 +167,8 @@ public class Game extends SurfaceView implements Callback{
 	//TODO: nothing to do, just to know: need to start thread here
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		
-		gameLoop.setRunning(true);
+		gameLoop = new GameLoop(this);
+		gameLoop.setRunning(true);		//TODO: thread start auslagern in eigene methode? = kontrollierter spielstart in activity
 		gameLoop.start();
 	}
 
@@ -176,7 +176,7 @@ public class Game extends SurfaceView implements Callback{
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		boolean retry = true;
-//		gameLoop.setRunning(false);
+		gameLoop.setRunning(false);
 		Log.v(TAG, "Trying to stop thread.");
 		while (retry) {
 			try {
